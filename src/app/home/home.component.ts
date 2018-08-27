@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Triangle } from './models/triangle.model';
 
@@ -7,7 +7,8 @@ import { Triangle } from './models/triangle.model';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class  HomeComponent implements OnInit {
+export class  HomeComponent implements OnInit, AfterViewInit {
+
   public triangleForm: FormGroup;
   public sides: Array<FormControl> = new Array();
 
@@ -15,8 +16,12 @@ export class  HomeComponent implements OnInit {
     this.triangleForm = new FormGroup(this.setFormControls(3));
   }
 
-  ngOnInit() {
-      this.triangleForm.valueChanges.subscribe(value => this.valueChecker(value));
+  ngOnInit(): void {
+      this.triangleForm.valueChanges.subscribe(value => this.triangleTypeChecker(value));
+  }
+
+  ngAfterViewInit(): void {
+    this.triangleTypeChecker(this.triangleForm.value);
   }
 
   private setFormControls(quantity: number): any {
@@ -28,28 +33,31 @@ export class  HomeComponent implements OnInit {
   }
 
   private setSideControl(): FormControl {
-    const sideControl = new FormControl(0);
+    const sideControl = new FormControl(5);
     this.sides.push(sideControl);
     return sideControl;
   }
 
-  private valueChecker(value: Triangle): void {
-    console.log(value);
-    if (this.isScalene(value)) {
-      console.log('Is Scalene!');
-    }
-    if (this.isIsosceles(value)) {
-      console.log('Is isosceles');
+  private triangleTypeChecker (value: Triangle) {
+    console.clear();
+    if (this.isEquilateral(value)) {
+      console.log('is Equilateral');
+    } else {
+      if (this.isScalene(value)) {
+        console.log('is Scalene');
+      } else {
+        console.log('is Isosceles');
+      }
     }
   }
 
-  private isScalene(triangle: Triangle): boolean {
-    return triangle.side1 !== triangle.side2 && triangle.side2 !== triangle.side3 && triangle.side3 !== triangle.side1;
+  private isEquilateral(value: Triangle): boolean {
+    return Object.values(value).every((side, i, arr) => arr[0] === side);
+      }
+
+  private isScalene(value: Triangle): boolean {
+    // TODO: Find a cleaner way to do compare
+    return value.side1 !== value.side2 && value.side3 !== value.side2 && value.side1 !== value.side3;      }
 }
 
-  private isIsosceles(triangle: Triangle): boolean {
-    const values = Object.values(triangle);
-    return values.map((side, index) => side === values[index + 1]).length >= 2;
-}
 
-}
