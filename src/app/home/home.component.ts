@@ -9,16 +9,28 @@ import { Triangle } from './models/triangle.model';
 })
 export class  HomeComponent implements OnInit {
   public triangleForm: FormGroup;
+  public sides: Array<FormControl> = new Array();
 
-  constructor() { }
+  constructor() {
+    this.triangleForm = new FormGroup(this.setFormControls(3));
+  }
 
   ngOnInit() {
-    this.triangleForm = new FormGroup({
-      sideOne: new FormControl(0),
-      sideTwo: new FormControl(0),
-      sideThree: new FormControl(0),
-      });
       this.triangleForm.valueChanges.subscribe(value => this.valueChecker(value));
+  }
+
+  private setFormControls(quantity: number): any {
+    const controlObj = {};
+    for (let index = 0; index < quantity; index++) {
+      controlObj[`side${index + 1}`] = this.setSideControl();
+    }
+    return controlObj;
+  }
+
+  private setSideControl(): FormControl {
+    const sideControl = new FormControl(0);
+    this.sides.push(sideControl);
+    return sideControl;
   }
 
   private valueChecker(value: Triangle): void {
@@ -32,7 +44,7 @@ export class  HomeComponent implements OnInit {
   }
 
   private isScalene(triangle: Triangle): boolean {
-    return triangle.sideOne !== triangle.sideTwo && triangle.sideTwo !== triangle.sideThree && triangle.sideThree !== triangle.sideOne;
+    return triangle.side1 !== triangle.side2 && triangle.side2 !== triangle.side3 && triangle.side3 !== triangle.side1;
 }
 
   private isIsosceles(triangle: Triangle): boolean {

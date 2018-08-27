@@ -1,22 +1,10 @@
 <h1>Triangle</h1>
 <form [formGroup]="triangleForm" class="form-group" data-ts="Form">
-    <fieldset>
+    <fieldset *ngFor="let control of sides; let i = index">
         <label>
-              <span>Side 1</span>
-              <input formControlName="sideOne" class="form-control" type="number"/>
+              <span>Side {{i +1}}</span>
+              <input formControlName="side{{i+1}}" class="form-control" type="number"/>
           </label>
-    </fieldset>
-    <fieldset>
-        <label>
-            <span>Side 2</span>
-            <input formControlName="sideTwo" class="form-control" type="number" />
-        </label>
-    </fieldset>
-    <fieldset>
-        <label>
-          <span>Side 3</span>
-          <input formControlName="sideThree" class="form-control" type="number"/>
-      </label>
     </fieldset>
 </form>
 <sub>{{triangleForm.value | json}}</sub>
