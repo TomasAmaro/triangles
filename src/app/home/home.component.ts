@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Triangle } from './models/triangle.model';
+import { TriangleTypes } from './models/triangle-types.enum';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,8 @@ export class  HomeComponent implements OnInit, AfterViewInit {
 
   public triangleForm: FormGroup;
   public sides: Array<FormControl> = new Array();
+  public TriangleTypes: typeof TriangleTypes = TriangleTypes;
+  public triangleType: TriangleTypes;
 
   constructor() {
     this.triangleForm = new FormGroup(this.setFormControls(3));
@@ -41,12 +44,12 @@ export class  HomeComponent implements OnInit, AfterViewInit {
   private triangleTypeChecker (value: Triangle) {
     console.clear();
     if (this.isEquilateral(value)) {
-      console.log('is Equilateral');
+      this.triangleType = TriangleTypes.Equilateral;
     } else {
       if (this.isScalene(value)) {
-        console.log('is Scalene');
+        this.triangleType = TriangleTypes.Scalene;
       } else {
-        console.log('is Isosceles');
+        this.triangleType = TriangleTypes.Isosceles;
       }
     }
   }

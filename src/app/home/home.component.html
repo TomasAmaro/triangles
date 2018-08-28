@@ -1,10 +1,22 @@
 <h1>Triangle</h1>
+<button class="no-click" data-ts="Button" 
+[ngClass]="triangleType === TriangleTypes.Scalene ? 'ts-primary' : 'ts-secondary'">
+    <span>Scalene</span>
+</button>
+<button class="no-click" data-ts="Button" 
+[ngClass]="triangleType === TriangleTypes.Equilateral ? 'ts-primary' : 'ts-secondary'">
+    <span>Equilateral</span>
+</button>
+<button class="no-click" data-ts="Button" 
+[ngClass]="triangleType === TriangleTypes.Isosceles ? 'ts-primary' : 'ts-secondary'">
+    <span>Isosceles</span>
+</button>
 <form [formGroup]="triangleForm" class="form-group" data-ts="Form">
     <fieldset *ngFor="let control of sides; let i = index">
         <label>
-              <span>Side {{i +1}}</span>
-              <input formControlName="side{{i+1}}" class="form-control" type="number"/>
-          </label>
+            <span>Side {{i +1}}</span>
+            <input formControlName="side{{i+1}}" class="form-control" type="number" />
+        </label>
     </fieldset>
 </form>
 <sub>{{triangleForm.value | json}}</sub>
