@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+.container {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  .container {
+    margin-left: 0rem;
+    margin-right: 0rem;
+  }
+}
+
+.no-click {
+    pointer-events: none;
+  }
